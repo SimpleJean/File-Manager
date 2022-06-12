@@ -109,6 +109,37 @@ readLine.on('line', (data) => {
   }
 });
 
+//Move the file
+readLine.on('line', (data) => {
+  const [command, oldPath, newPath] = data.split(' ');
+  const pathToFile = path.join(__dirname, oldPath);
+  const newPathToFile = path.join(__dirname, newPath);
+
+  console.log(pathToFile);
+  console.log(newPathToFile);
+
+  if (command === 'mv') {
+    try {
+      fsp.rename(pathToFile, newPathToFile);
+    } catch (err) {
+      console.error(`rename: ${err}`);
+    }
+  } else if (command === 'cp') {
+    try {
+      fsp.copyFile(pathToFile, newPathToFile);
+    } catch (err) {
+      console.error(`copyFile: ${err}`);
+    }
+  } else if (command === 'rn') {
+    try {
+      fsp.rename(pathToFile, newPathToFile);
+      console.log(`File ${pathToFile} renamed to ${newPathToFile}`);
+    } catch (err) {
+      console.error(`Rename: ${err}`);
+    }
+  }
+});
+
 //Operating system info
 readLine.on('line', (data) => {
   switch (data) {
