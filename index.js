@@ -76,6 +76,11 @@ readLine.on('line', (data) => {
     } catch (err) {
       console.error(`chdir: ${err}`);
     }
+    //Hash the file specified by the user
+  } else if (command === 'hash') {
+    fsp.readFile(fileName).then((data) => {
+      console.log(crypto.createHash('sha256').update(data).digest('hex'));
+    });
   }
 });
 
@@ -99,3 +104,18 @@ readLine.on('line', (data) => {
       break;
   }
 });
+
+readLine.on('line', (data) => {
+  if (data === '.exit') {
+    dataEntryCompletion();
+  }
+});
+
+readLine.on('SIGINT', () => {
+  dataEntryCompletion();
+});
+
+const dataEntryCompletion = () => {
+  readLine.close();
+  process.exit(0);
+};
