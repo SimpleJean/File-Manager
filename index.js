@@ -52,3 +52,34 @@ readLine.on('line', (data) => {
     }
   }
 });
+
+//Go to the directory specified by the user
+readLine.on('line', (data) => {
+  const [command, fileName] = data.split(' ');
+  if (command === 'cd') {
+    try {
+      process.chdir(fileName);
+      console.log(`New directory: ${process.cwd()}`);
+    } catch (err) {
+      console.error(`chdir: ${err}`);
+    }
+  }
+});
+
+//Read the file specified by the user
+readLine.on('line', (data) => {
+  const [command, fileName] = data.split(' ');
+
+  if (command === 'cat') {
+    fsp.readFile(fileName).then((data) => {
+      console.log(data.toString());
+    });
+    //Add a file
+  } else if (command === 'add') {
+    fsp.writeFile(fileName, data, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+});
