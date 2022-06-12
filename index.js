@@ -54,7 +54,7 @@ readLine.on('line', (data) => {
 });
 
 //Go to the directory specified by the user
-readLine.on('line', (data) => {
+/* readLine.on('line', (data) => {
   const [command, fileName] = data.split(' ');
   if (command === 'cd') {
     try {
@@ -64,7 +64,7 @@ readLine.on('line', (data) => {
       console.error(`chdir: ${err}`);
     }
   }
-});
+}); */
 
 //Read the file specified by the user
 readLine.on('line', (data) => {
@@ -81,5 +81,12 @@ readLine.on('line', (data) => {
         console.log(err);
       }
     });
+  } else if (command === 'cd') {
+    try {
+      process.chdir(fileName);
+      console.log(`New directory: ${process.cwd()}`);
+    } catch (err) {
+      console.error(`chdir: ${err}`);
+    }
   }
 });
