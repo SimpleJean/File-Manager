@@ -81,6 +81,23 @@ readLine.on('line', (data) => {
     fsp.readFile(fileName).then((data) => {
       console.log(crypto.createHash('sha256').update(data).digest('hex'));
     });
+    //Compress via Brotli algorithm and decompress the file specified by the user
+  } else if (command === 'compress') {
+    fsp
+      .readFile(fileName, 'utf-8')
+      .then(() =>
+        fsp.writeFile(
+          `${path.parse(fileName).name}.br`,
+          zlib.createBrotliCompress(fs.readFileSync(fileName, 'utf-8'))
+        )
+      );
+  } else if (command === 'decompress') {
+    fsp.readFile(fileName, 'utf-8').then(() => {
+      fsp.writeFile(
+        `${fileName}.txt`,
+        zlib.createBrotliDecompress(fs.readFileSync(fileName, 'utf-8'))
+      );
+    });
   }
 });
 
