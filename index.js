@@ -53,19 +53,6 @@ readLine.on('line', (data) => {
   }
 });
 
-//Go to the directory specified by the user
-/* readLine.on('line', (data) => {
-  const [command, fileName] = data.split(' ');
-  if (command === 'cd') {
-    try {
-      process.chdir(fileName);
-      console.log(`New directory: ${process.cwd()}`);
-    } catch (err) {
-      console.error(`chdir: ${err}`);
-    }
-  }
-}); */
-
 //Read the file specified by the user
 readLine.on('line', (data) => {
   const [command, fileName] = data.split(' ');
@@ -81,6 +68,7 @@ readLine.on('line', (data) => {
         console.log(err);
       }
     });
+    //Go to the directory specified by the user
   } else if (command === 'cd') {
     try {
       process.chdir(fileName);
@@ -88,5 +76,26 @@ readLine.on('line', (data) => {
     } catch (err) {
       console.error(`chdir: ${err}`);
     }
+  }
+});
+
+//Operating system info
+readLine.on('line', (data) => {
+  switch (data) {
+    case '--EOL':
+      console.log(JSON.stringify(os.EOL));
+      break;
+    case '--cpus':
+      console.table(os.cpus());
+      break;
+    case '--homedir':
+      console.log(os.homedir());
+      break;
+    case '--username':
+      console.log(os.userInfo().username);
+      break;
+    case '--architecture':
+      console.log(os.arch());
+      break;
   }
 });
