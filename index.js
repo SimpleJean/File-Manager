@@ -98,6 +98,14 @@ readLine.on('line', (data) => {
         zlib.createBrotliDecompress(fs.readFileSync(fileName, 'utf-8'))
       );
     });
+    //Remove the file specified by the user
+  } else if (command === 'rm') {
+    try {
+      const pathToFile = path.join(__dirname, fileName);
+      fsp.unlink(pathToFile);
+    } catch (err) {
+      console.error(`unlink: ${err}`);
+    }
   }
 });
 
